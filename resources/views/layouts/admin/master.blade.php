@@ -21,6 +21,12 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin-template/css/sb-admin-2.min.css') }}" rel="stylesheet">
 
+    <!-- Sweet Alert 2 -->
+    <link href="{{ asset('admin-template/css/sweetalert2.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('admin-template/css/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <!-- Data tables styles-->
+    <link href="{{ asset('admin-template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     @stack('styles')
 
 </head>
@@ -96,12 +102,47 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('admin-template/js/sb-admin-2.min.js') }}"></script>
 
+    <!-- Sweet Alert 2 -->
+    <script src="{{ asset('admin-template/js/sweetalert2.js') }}"></script>
+    <script src="{{ asset('admin-template/js/sweetalert2.min.js') }}"></script>
+
     <!-- Page level plugins -->
     <script src="{{ asset('admin-template/vendor/chart.js/Chart.min.js') }}"></script>
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('admin-template/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin-template/js/demo/chart-pie-demo.js') }}"></script>
+
+    <!--  Data tables scripts-->-->
+    <script src="{{ asset('admin-template/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('admin-template/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('admin-template/js/demo/datatables-demo.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+
+            $('.btn-delete-resource').click(function(event) {
+                event.preventDefault();
+                var form = $(this).data('form-id') != null ? $('#' + $(this).data('form-id')) : $(this)
+                    .parent();
+                if ($(this).hasClass('redirect-after-confirmation')) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        icon: 'warning',
+                        text: $(this).data('confirmation-message'),
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, Delete!',
+                        confirmButtonColor: '#e3342f',
+                        showLoaderOnConfirm: true,
+                        preConfirm: () => {
+                            return new Promise((resolve) => {
+                                form.submit();
+                            })
+                        }
+                    })
+                }
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 

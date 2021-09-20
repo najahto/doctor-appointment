@@ -38,4 +38,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->hasOne(Role::class, 'id', 'role_id');
+    }
+
+    public static function uploadPicture($request)
+    {
+        if ($request->hasFile('picture')) {
+            $file = $request->file('picture');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $destinationPath = 'images/doctors';
+            return $file->storeAs($destinationPath, $fileName, 'public');
+        }
+        return null;
+    }
+
+    public static function removePicture($path)
+    {
+        if (file_exists(storage_path('app/public/' . $path))) {
+            unlink(storage_path('app/public/' . $path));
+        }
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,12 +18,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('admin.dashboard');
-});
-
-
-
 Auth::routes();
 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group([
+    'namespace' => 'Admin',
+    'prefix' => 'admin'
+], function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+    Route::resource('doctors', '\App\Http\Controllers\Admin\DoctorController');
+});
