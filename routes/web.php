@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\DoctorController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,12 +25,24 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->name('dashboard');
+
 Route::group([
     'namespace' => 'Admin',
-    'prefix' => 'admin'
+    'prefix' => 'admin',
+    'middleware' => ['auth', 'admin'],
 ], function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
     Route::resource('doctors', '\App\Http\Controllers\Admin\DoctorController');
+});
+
+Route::group([
+    'namespace' => 'Admin',
+    'middleware' => ['auth', 'doctor'],
+], function () {
+
+    Route::resource('appointments', '\App\Http\Controllers\Admin\AppointmentController');
+    Route::post('/appointment/check', [AppointmentController::class, 'check'])->name('appointment.check');
+    Route::post('/appointment/update', [AppointmentController::class, 'updateTime'])->name('update.times');
 });

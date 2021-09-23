@@ -12,8 +12,8 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="index.html">
+    <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -21,10 +21,6 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Interface
-    </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item {{ Request::is('admin/doctors*') ? 'active' : '' }}">
@@ -32,9 +28,24 @@
             <i class="fas fa-fw fa-cog"></i>
             <span>Doctors</span>
         </a>
-
     </li>
 
+    <li class="nav-item {{ Request::is('appointment*') ? 'active' : '' }}">
+        <a class="nav-link {{ Request::is('appointment*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse"
+            data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-sitemap fa-folder"></i>
+            <span>Appointments</span>
+        </a>
+        <div id="collapseTwo" class="collapse {{ Request::is('appointment*') ? 'show' : '' }}"
+            aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{ Request::is('appointments/create') ? 'active' : '' }}"
+                    href="{{ Route('appointments.create') }}">Create</a>
+                <a class="collapse-item {{ Request::is('appointments') ? 'active' : '' }}"
+                    href="{{ Route('appointments.index') }}">Check</a>
+            </div>
+        </div>
+    </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
 

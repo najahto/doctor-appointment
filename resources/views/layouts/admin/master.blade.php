@@ -113,7 +113,7 @@
     <script src="{{ asset('admin-template/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('admin-template/js/demo/chart-pie-demo.js') }}"></script>
 
-    <!--  Data tables scripts-->-->
+    <!--  Data tables scripts-->
     <script src="{{ asset('admin-template/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('admin-template/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('admin-template/js/demo/datatables-demo.js') }}"></script>
