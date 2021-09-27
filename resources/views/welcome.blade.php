@@ -16,8 +16,8 @@
                         qui dicta?</p>
 
                     <div class="mt-3">
-                        <button class="btn btn-success">Register as patient </button>
-                        <button class="btn btn-secondary">Login </button>
+                        <a href="{{ route('register') }}"><button class="btn btn-success">Register as patient </button></a>
+                        <a href="{{ route('login') }}"><button class="btn btn-secondary">Login </button></a>
                     </div>
                 </div>
             </div>
@@ -25,20 +25,24 @@
 
         {{-- Find Doctor Section --}}
         <section class="mt-5">
-            <div class="card">
-                <div class="card-header">Find Doctors</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-10">
-                            <input type="date" class="form-control" name="date" id="">
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-primary btn-block"><i class="fa fa-search mr-2"></i> Find
-                                Doctors</button>
+            <form action="{{ url('/') }}" method="GET">
+                @csrf
+                <div class="card">
+                    <div class="card-header">Find Doctors</div>
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-md-10">
+                                <input type="date" class="form-control" name="date">
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary btn-block"><i class="fa fa-search mr-2"></i> Find
+                                    Doctors</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </section>
 
         {{-- Find Doctor Section --}}
@@ -59,13 +63,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td><button class="btn btn-success btn-block">Book Appointment</button></td>
-                                    </tr>
+                                    @forelse ($doctors as $key=>$doctor)
+                                        <tr>
+                                            <th scope="row">{{ $key + 1 }}</th>
+                                            <td>
+                                                @if ($doctor->picture)
+                                                    <img src="{{ asset('storage/' . $doctor->doctor->picture) }}"
+                                                        height="50px" width="50px" class="cirle-image">
+                                                @else
+                                                    <img src="{{ asset('images/doctor-avatar.svg') }}"
+                                                        alt="No picture to show" width="50px" class="cirle-image">
+                                                @endif
+                                            </td>
+                                            <td>{{ $doctor->doctor->name }}</td>
+                                            <td>{{ $doctor->doctor->department }}</td>
+                                            <td><a
+                                                    href="{{ route('patient.appointment.create', [$doctor->user_id, $doctor->date]) }}"><button
+                                                        class="btn btn-success btn-block">Book Appointment</button></a></td>
+                                        </tr>
+                                    @empty
+                                        <td>No doctor Availible</td>
+                                    @endforelse ($doctors as $doctor)
+
                                 </tbody>
                             </table>
                         </div>
@@ -95,7 +114,6 @@
 
         .search-group {
             display: flex;
-
         }
 
     </style>
