@@ -8,7 +8,11 @@
                     <div class="card-header">Doctor Information</div>
                     <div class="card-body">
                         <div class="doctor-image text-center mb-3">
-                            <img src="{{ asset('/images/doctor-avatar.svg') }}" width="100px" class="cirle-image">
+                            @if ($doctor->picture)
+                                <img src="{{ asset('/storage/' . $doctor->picture) }}" class="cirle-image">
+                            @else
+                                <img src="{{ asset('/images/doctor-avatar.svg') }}" class="cirle-image">
+                            @endif
                         </div>
                         <div class="doctor-info">
                             <p> <b>Name:</b> {{ $doctor->name }}</p>
@@ -71,6 +75,14 @@
 @endsection
 @push('styles')
     <style>
+        .cirle-image {
+            border-radius: 50%;
+            border: 3px solid #38c172;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
         label.btn {
             padding: 0;
         }

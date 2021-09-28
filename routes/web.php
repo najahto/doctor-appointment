@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\ProfileController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
@@ -24,16 +25,23 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Route::get('/appointment/create/{doctorId}/{date}', [FrontendController::class, 'create'])
 Route::get('/new-appointment/{doctorId}/{date}/', [FrontendController::class, 'createAppointment'])
     ->name('patient.appointment.create');
 
-Route::post('/book/appointment', [FrontendController::class, 'bookAppointment'])
-    ->name('book.appointment')->middleware('auth');
 
-Route::get('/my-booking', [FrontendController::class, 'myBooking'])->middleware('auth');
+Route::group(
+    ['middleware' => ['auth', 'patient']],
+    function () {
+        Route::post('/book/appointment', [FrontendController::class, 'bookAppointment'])
+            ->name('book.appointment');
+        Route::get('/my-booking', [FrontendController::class, 'myBooking']);
+        Route::get('/profile', [ProfileController::class, 'show']);
+        Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
+        Route::post('/profile/picture', [ProfileController::class, 'profilePicture'])->name('profile.picture');
+    }
+);
 
 Route::group([
     'namespace' => 'Admin',

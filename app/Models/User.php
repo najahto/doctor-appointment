@@ -49,7 +49,7 @@ class User extends Authenticatable
         if ($request->hasFile('picture')) {
             $file = $request->file('picture');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $destinationPath = 'images/doctors';
+            $destinationPath = 'images/users';
             return $file->storeAs($destinationPath, $fileName, 'public');
         }
         return null;

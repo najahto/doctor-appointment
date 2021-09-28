@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AppointmentResource;
 use App\Mail\AppointmentMail;
 use App\Models\Appointment;
 use App\Models\Booking;
@@ -15,15 +16,21 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        date_default_timezone_set('Africa/Casablanca');
+        return view('welcome');
+    }
 
-        if (request('date')) {
-            $doctors = $this->findDoctorsByDate(request('date'));
-            return view('welcome')->with('doctors', $doctors);
-        }
+    public function todayDoctors(Request $request)
+    {
+        $appointments = Appointment::with('doctor')->whereDate('date', date('Y-m-d'))->get();
 
-        $doctors = Appointment::where('date', date('Y-m-d'))->get();
-        return view('welcome')->with('doctors', $doctors);
+        return AppointmentResource::collection($appointments);
+    }
+
+    public function findDoctors(Request $request)
+    {
+        $appointments = Appointment::with('doctor')->whereDate('date', $request->date)->get();
+
+        return AppointmentResource::collection($appointments);
     }
 
     public function createAppointment($doctorId, $date)
@@ -74,14 +81,6 @@ class FrontendController extends Controller
     {
         $appointments = Booking::where('patient_id', auth()->user()->id)->get();
         return view('patients.my-booking')->with('appointments', $appointments);
-    }
-
-    public function findDoctorsByDate($date)
-    {
-        date_default_timezone_set('Africa/Casablanca');
-
-        $doctors = Appointment::where('date', $date)->get();
-        return $doctors;
     }
 
     public function checkBookingTimeInterval()

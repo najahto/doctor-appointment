@@ -23,75 +23,9 @@
             </div>
         </Header>
 
+        {{-- Date Picker Section --}}
+        <find-doctors></find-doctors>
         {{-- Find Doctor Section --}}
-        <section class="mt-5">
-            <form action="{{ url('/') }}" method="GET">
-                @csrf
-                <div class="card">
-                    <div class="card-header">Find Doctors</div>
-                    <div class="card-body">
-                        <div class="row">
-
-                            <div class="col-md-10">
-                                <input type="date" class="form-control" name="date">
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary btn-block"><i class="fa fa-search mr-2"></i> Find
-                                    Doctors</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </section>
-
-        {{-- Find Doctor Section --}}
-        <section class="mt-5">
-            <div class="card">
-                <div class="card-header">Doctor List</div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" style="width: 20%">#</th>
-                                        <th scope="col" style="width: 20%">Picture</th>
-                                        <th scope="col" style="width: 20%">Name</th>
-                                        <th scope="col" style="width: 20M">Expertise</th>
-                                        <th scope="col" style="width: 20%">Book</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($doctors as $key=>$doctor)
-                                        <tr>
-                                            <th scope="row">{{ $key + 1 }}</th>
-                                            <td>
-                                                @if ($doctor->picture)
-                                                    <img src="{{ asset('storage/' . $doctor->doctor->picture) }}"
-                                                        height="50px" width="50px" class="cirle-image">
-                                                @else
-                                                    <img src="{{ asset('images/doctor-avatar.svg') }}"
-                                                        alt="No picture to show" width="50px" class="cirle-image">
-                                                @endif
-                                            </td>
-                                            <td>{{ $doctor->doctor->name }}</td>
-                                            <td>{{ $doctor->doctor->department }}</td>
-                                            <td><a
-                                                    href="{{ route('patient.appointment.create', [$doctor->user_id, $doctor->date]) }}"><button
-                                                        class="btn btn-success btn-block">Book Appointment</button></a></td>
-                                        </tr>
-                                    @empty
-                                        <td>No doctor Availible</td>
-                                    @endforelse ($doctors as $doctor)
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
     </div>
 @endsection
