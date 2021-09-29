@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DoctorController;
+use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
 use GuzzleHttp\Middleware;
@@ -49,6 +50,8 @@ Route::group([
     'middleware' => ['auth', 'admin'],
 ], function () {
     Route::resource('doctors', '\App\Http\Controllers\Admin\DoctorController');
+    Route::get('/patients', [PatientController::class, 'index'])->name('patients');
+    Route::get('/status/update/{id}', [PatientController::class, 'updateStatus'])->name('status.update');
 });
 
 Route::group([

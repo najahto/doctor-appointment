@@ -23,28 +23,39 @@
 
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item {{ Request::is('admin/doctors*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('doctors.index') }}">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Doctors</span>
-        </a>
-    </li>
+    @if (auth()->user()->role->name == 'admin')
+        <li class="nav-item {{ Request::is('admin/doctors*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('doctors.index') }}">
+                <i class="fa fa-users"></i>
+                <span>Doctors</span>
+            </a>
+        </li>
+    @endif
 
-    <li class="nav-item {{ Request::is('appointment*') ? 'active' : '' }}">
-        <a class="nav-link {{ Request::is('appointment*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse"
-            data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-sitemap fa-folder"></i>
-            <span>Appointments</span>
-        </a>
-        <div id="collapseTwo" class="collapse {{ Request::is('appointment*') ? 'show' : '' }}"
-            aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {{ Request::is('appointments/create') ? 'active' : '' }}"
-                    href="{{ Route('appointments.create') }}">Create</a>
-                <a class="collapse-item {{ Request::is('appointments') ? 'active' : '' }}"
-                    href="{{ Route('appointments.index') }}">Check</a>
+    @if (auth()->user()->role->name == 'doctor')
+        <li class="nav-item {{ Request::is('appointment*') ? 'active' : '' }}">
+            <a class="nav-link {{ Request::is('appointment*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse"
+                data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-tasks"></i>
+                <span>Appointments time</span>
+            </a>
+            <div id="collapseTwo" class="collapse {{ Request::is('appointment*') ? 'show' : '' }}"
+                aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item {{ Request::is('appointments/create') ? 'active' : '' }}"
+                        href="{{ Route('appointments.create') }}">Create</a>
+                    <a class="collapse-item {{ Request::is('appointments') ? 'active' : '' }}"
+                        href="{{ Route('appointments.index') }}">Check</a>
+                </div>
             </div>
-        </div>
+        </li>
+    @endif
+
+    <li class="nav-item {{ Request::is('admin/patients*') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('patients') }}">
+            <i class="fas fa-user-clock"></i>
+            <span>Patients appointments</span>
+        </a>
     </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
