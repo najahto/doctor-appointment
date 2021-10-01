@@ -109,6 +109,9 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
+                                        <div class="d-flex justify-content-center">
+                                            {!! $users->links() !!}
+                                        </div>
                                     </div>
 
                                 @else
@@ -187,4 +190,32 @@
         }
 
     </style>
+@endpush
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+
+            $('.btn-delete-resource').click(function(event) {
+                event.preventDefault();
+                var form = $(this).data('form-id') != null ? $('#' + $(this).data('form-id')) : $(this)
+                    .parent();
+                if ($(this).hasClass('redirect-after-confirmation')) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        icon: 'warning',
+                        text: $(this).data('confirmation-message'),
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, Delete!',
+                        confirmButtonColor: '#e3342f',
+                        showLoaderOnConfirm: true,
+                        preConfirm: () => {
+                            return new Promise((resolve) => {
+                                form.submit();
+                            })
+                        }
+                    })
+                }
+            });
+        });
+    </script>
 @endpush

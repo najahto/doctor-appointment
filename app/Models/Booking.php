@@ -19,4 +19,9 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function prescription()
+    {
+        return $this->hasOne(Prescription::class);
+    }
 }

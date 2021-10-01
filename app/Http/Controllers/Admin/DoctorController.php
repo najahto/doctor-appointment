@@ -20,7 +20,7 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        return view("admin.doctors.index")->with('users', User::where('role_id', '!=', 3)->get());
+        return view("admin.doctors.index")->with('users', User::where('role_id', '!=', 3)->paginate(15));
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Resources\AppointmentResource;
 use App\Mail\AppointmentMail;
 use App\Models\Appointment;
 use App\Models\Booking;
+use App\Models\Prescription;
 use App\Models\Time;
 use App\Models\User;
 use Exception;
@@ -81,6 +82,15 @@ class FrontendController extends Controller
     {
         $appointments = Booking::where('patient_id', auth()->user()->id)->get();
         return view('patients.my-booking')->with('appointments', $appointments);
+    }
+
+    public function myPrescription()
+    {
+        $prescriptions =  Prescription::with(["booking" => function ($q) {
+            $q->where('patient_id', auth()->user()->id);
+        }])->get();
+
+        return view('patients.my-prescription')->with('prescriptions', $prescriptions);
     }
 
     public function checkBookingTimeInterval()

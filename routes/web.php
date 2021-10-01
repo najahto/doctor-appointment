@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\Doctor\PrescriptionController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProfileController;
 use GuzzleHttp\Middleware;
@@ -38,6 +39,7 @@ Route::group(
         Route::post('/book/appointment', [FrontendController::class, 'bookAppointment'])
             ->name('book.appointment');
         Route::get('/my-booking', [FrontendController::class, 'myBooking']);
+        Route::get('/my-prescription', [FrontendController::class, 'myPrescription'])->name('my.prescription');
         Route::get('/profile', [ProfileController::class, 'show']);
         Route::post('/profile', [ProfileController::class, 'store'])->name('profile.store');
         Route::post('/profile/picture', [ProfileController::class, 'profilePicture'])->name('profile.picture');
@@ -62,4 +64,7 @@ Route::group([
     Route::resource('appointments', '\App\Http\Controllers\Admin\AppointmentController');
     Route::post('/appointment/check', [AppointmentController::class, 'check'])->name('appointment.check');
     Route::post('/appointment/update', [AppointmentController::class, 'updateTime'])->name('update.times');
+    Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions');
+    Route::post('/prescriptions/store', [PrescriptionController::class, 'store'])->name('prescription.store');
+    Route::get('/prescriptions/show/{id}', [PrescriptionController::class, 'show'])->name('prescription.show');
 });

@@ -47,6 +47,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/my-booking') }}">{{ __('My Booking') }}</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                                href="{{ url('/my-prescription') }}">{{ __('My Prescriptions') }}</a>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -68,7 +73,7 @@
                                     <a class="dropdown-item" href="{{ url('profile') }}"> {{ __('Profile') }} </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                                         document.getElementById('logout-form').submit();">
+                                                                                                                                                                             document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 

@@ -51,15 +51,34 @@
         </li>
     @endif
 
-    <li class="nav-item {{ Request::is('admin/patients*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('patients') }}">
-            <i class="fas fa-user-clock"></i>
-            <span>Patients appointments</span>
-        </a>
-    </li>
+    @if (auth()->user()->role->name == 'admin')
+        <li class="nav-item {{ Request::is('admin/patients*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('patients') }}">
+                <i class="fas fa-user-clock"></i>
+                <span>Patients appointments</span>
+            </a>
+        </li>
+    @endif
+
+    @if (auth()->user()->role->name == 'doctor')
+        <li class="nav-item {{ Request::is('prescriptions*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('prescriptions') }}">
+                <i class="fas fa-user-clock"></i>
+                <span>Prescriptions</span>
+            </a>
+        </li>
+        </li>
+    @endif
     <!-- Divider -->
     <hr class="sidebar-divider">
-
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+        document.getElementById('logout-form').submit();">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </li>
+    </li>
 
 
 </ul>

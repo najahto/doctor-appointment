@@ -12,13 +12,16 @@ class PatientController extends Controller
     {
         date_default_timezone_set('Africa/Casablanca');
 
+        $date = date('Y-m-d');
+
         if ($request->date) {
-            $bookings = Booking::latest()->where('date', $request->date)->paginate(15);
-            return view('admin.patients.index')->with('bookings', $bookings);
+            $date = $request->date;
+            $bookings = Booking::latest()->where('date', $date)->paginate(15);
+            return view('admin.patients.index', compact('bookings', 'date'));
         }
 
-        $bookings = Booking::latest()->where('date', date('Y-m-d'))->paginate(15);
-        return view('admin.patients.index')->with('bookings', $bookings);
+        $bookings = Booking::latest()->where('date', $date)->paginate(15);
+        return view('admin.patients.index', compact('bookings', 'date'));
     }
 
     public function updateStatus($id)
