@@ -20,7 +20,15 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
+    <!-- Nav Item - Pages Collapse Menu -->
+    @if (auth()->user()->role->name == 'admin')
+        <li class="nav-item {{ Request::is('admin/departments*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('departments.index') }}">
+                <i class="	fa fa-sitemap"></i>
+                <span>Departments</span>
+            </a>
+        </li>
+    @endif
 
     <!-- Nav Item - Pages Collapse Menu -->
     @if (auth()->user()->role->name == 'admin')

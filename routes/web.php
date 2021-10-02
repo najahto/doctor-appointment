@@ -52,6 +52,7 @@ Route::group([
     'middleware' => ['auth', 'admin'],
 ], function () {
     Route::resource('doctors', '\App\Http\Controllers\Admin\DoctorController');
+    Route::resource('departments', '\App\Http\Controllers\Admin\DepartmentController');
     Route::get('/patients', [PatientController::class, 'index'])->name('patients');
     Route::get('/status/update/{id}', [PatientController::class, 'updateStatus'])->name('status.update');
 });
@@ -60,7 +61,6 @@ Route::group([
     'namespace' => 'Admin',
     'middleware' => ['auth', 'doctor'],
 ], function () {
-
     Route::resource('appointments', '\App\Http\Controllers\Admin\AppointmentController');
     Route::post('/appointment/check', [AppointmentController::class, 'check'])->name('appointment.check');
     Route::post('/appointment/update', [AppointmentController::class, 'updateTime'])->name('update.times');
