@@ -110,9 +110,3 @@
     </div>
     <!-- /.content-wrapper -->
 @endsection
-
-@push('styles')
-    <style>
-
-    </style>
-@endpush

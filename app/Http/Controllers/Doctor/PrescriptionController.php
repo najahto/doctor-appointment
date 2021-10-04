@@ -20,13 +20,13 @@ class PrescriptionController extends Controller
             $date = $request->date;
             $bookings = Booking::where('date', $date)->where('status', 1)
                 ->where('doctor_id', auth()->user()->id)->paginate(15);
-            return view('admin.prescriptions.index', compact('bookings', 'date'));
+            return view('doctor.prescriptions.index', compact('bookings', 'date'));
         }
 
         $bookings = Booking::where('date', $date)->where('status', 1)
             ->where('doctor_id', auth()->user()->id)->paginate(15);
 
-        return view('admin.prescriptions.index', compact('bookings', 'date'));
+        return view('doctor.prescriptions.index', compact('bookings', 'date'));
     }
 
     public function store(Request $request)
@@ -45,6 +45,6 @@ class PrescriptionController extends Controller
         // dd($id);
         $prescription = Prescription::findOrFail($id);
 
-        return view('admin.prescriptions.show')->with('prescription', $prescription);
+        return view('doctor.prescriptions.show')->with('prescription', $prescription);
     }
 }

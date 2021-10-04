@@ -97,7 +97,7 @@
                                                             Prescription
                                                         </button>
 
-                                                        @include('admin.prescriptions.modal')
+                                                        @include('doctor.prescriptions.modal')
                                                     @else
                                                         <a href="{{ route('prescription.show', $booking->prescription->id) }}"
                                                             class="btn btn-info"> View Prescription</a>
