@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\AppointmentController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Doctor\AppointmentController;
+use App\Http\Controllers\Shared\DashboardController;
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Doctor\PrescriptionController;
@@ -32,7 +32,32 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/new-appointment/{doctorId}/{date}/', [FrontendController::class, 'createAppointment'])
     ->name('patient.appointment.create');
 
+// Doctor routes
+Route::group([
+    'namespace' => 'Doctor',
+    'middleware' => ['auth', 'doctor'],
+], function () {
+    Route::resource('appointments', '\App\Http\Controllers\Doctor\AppointmentController');
+    Route::post('/appointment/check', [AppointmentController::class, 'check'])->name('appointment.check');
+    Route::post('/appointment/update', [AppointmentController::class, 'updateTime'])->name('update.times');
+    Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions');
+    Route::post('/prescriptions/store', [PrescriptionController::class, 'store'])->name('prescription.store');
+    Route::get('/prescriptions/show/{id}', [PrescriptionController::class, 'show'])->name('prescription.show');
+});
 
+// Admin Routes
+Route::group([
+    'namespace' => 'Admin',
+    'prefix' => 'admin',
+    'middleware' => ['auth', 'admin'],
+], function () {
+    Route::resource('doctors', '\App\Http\Controllers\Admin\DoctorController');
+    Route::resource('departments', '\App\Http\Controllers\Admin\DepartmentController');
+    Route::get('/patients', [PatientController::class, 'index'])->name('patients');
+    Route::get('/status/update/{id}', [PatientController::class, 'updateStatus'])->name('status.update');
+});
+
+// Patients Routes
 Route::group(
     ['middleware' => ['auth', 'patient']],
     function () {
@@ -45,26 +70,3 @@ Route::group(
         Route::post('/profile/picture', [ProfileController::class, 'profilePicture'])->name('profile.picture');
     }
 );
-
-Route::group([
-    'namespace' => 'Admin',
-    'prefix' => 'admin',
-    'middleware' => ['auth', 'admin'],
-], function () {
-    Route::resource('doctors', '\App\Http\Controllers\Admin\DoctorController');
-    Route::resource('departments', '\App\Http\Controllers\Admin\DepartmentController');
-    Route::get('/patients', [PatientController::class, 'index'])->name('patients');
-    Route::get('/status/update/{id}', [PatientController::class, 'updateStatus'])->name('status.update');
-});
-
-Route::group([
-    'namespace' => 'Admin',
-    'middleware' => ['auth', 'doctor'],
-], function () {
-    Route::resource('appointments', '\App\Http\Controllers\Admin\AppointmentController');
-    Route::post('/appointment/check', [AppointmentController::class, 'check'])->name('appointment.check');
-    Route::post('/appointment/update', [AppointmentController::class, 'updateTime'])->name('update.times');
-    Route::get('/prescriptions', [PrescriptionController::class, 'index'])->name('prescriptions');
-    Route::post('/prescriptions/store', [PrescriptionController::class, 'store'])->name('prescription.store');
-    Route::get('/prescriptions/show/{id}', [PrescriptionController::class, 'show'])->name('prescription.show');
-});

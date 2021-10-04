@@ -15,10 +15,12 @@
                         aliquid
                         qui dicta?</p>
 
-                    <div class="mt-3">
-                        <a href="{{ route('register') }}"><button class="btn btn-success">Register as patient </button></a>
-                        <a href="{{ route('login') }}"><button class="btn btn-secondary">Login </button></a>
-                    </div>
+                    @guest
+                        <div class="mt-3">
+                            <a href="{{ route('register') }}"><button class="btn btn-success">Register as patient </button></a>
+                            <a href="{{ route('login') }}"><button class="btn btn-secondary">Login </button></a>
+                        </div>
+                    @endguest
                 </div>
             </div>
         </Header>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAppointmentRequest;
@@ -21,7 +21,7 @@ class AppointmentController extends Controller
         $amTimes = Appointment::getAMWorkingTimes();
         $pmTimes = Appointment::getPMWorkingTimes();
         $appointments = Appointment::latest()->where('user_id', Auth::user()->id)->get();
-        return view('admin.appointments.index', [
+        return view('doctor.appointments.index', [
             'amTimes' => $amTimes,
             'pmTimes' => $pmTimes,
             'appointments' => $appointments
@@ -37,7 +37,7 @@ class AppointmentController extends Controller
     {
         $amTimes = Appointment::getAMWorkingTimes();
         $pmTimes = Appointment::getPMWorkingTimes();
-        return view('admin.appointments.create', [
+        return view('doctor.appointments.create', [
             'amTimes' => $amTimes,
             'pmTimes' => $pmTimes
         ]);
@@ -125,7 +125,7 @@ class AppointmentController extends Controller
         $amTimes = Appointment::getAMWorkingTimes();
         $pmTimes = Appointment::getPMWorkingTimes();
 
-        return view('admin.appointments.index', [
+        return view('doctor.appointments.index', [
             'date' => $date,
             'amTimes' => $amTimes,
             'pmTimes' => $pmTimes,
